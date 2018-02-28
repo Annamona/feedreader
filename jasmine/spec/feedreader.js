@@ -71,11 +71,16 @@ $(function() {
     describe('New Feed Selection', function() {
       var previous;
       beforeEach(function(done){
-          loadFeed(0,function(){done();});
-      });
-      beforeEach(function(done){
-          previous = $(".feed").html();
-          loadFeed(1,function(){done();});
+         /* load the first feed then once is done load the second.
+          * once the second is done will call the done() function that
+          * will make the test run
+          */
+          loadFeed(0,function(){
+            previous = $(".feed").html();
+            loadFeed(1,function(){
+                        done();
+                      });
+          });
       });
       it('is loading different feeds entry', function(done) {
           expect($(".feed").html()).not.toBe(previous);
