@@ -46,25 +46,19 @@ $(function() {
        * toggle this class will show or hide again the menu
        */
         it('is hidden by default', function() {
-            expect(document.body.className).toBe("menu-hidden");
+            expect($(document.body).hasClass("menu-hidden")).toBe(true);
         });
-        /* TODO: Write a test that ensures the menu changes
-         * visibility when the menu icon is clicked. This test
-         * should have two expectations: does the menu display when
-         * clicked and does it hide when clicked again.
-         */
          it('is hiding/showing on click', function() {
              $(".menu-icon-link").trigger("click");
-             expect(document.body.className).not.toBe("menu-hidden");
+             expect($(document.body).hasClass("menu-hidden")).toBe(false);
              $(".menu-icon-link").trigger("click");
-             expect(document.body.className).toBe("menu-hidden");
+             expect($(document.body).hasClass("menu-hidden")).toBe(true);
          });
     });
 
     describe('Initial Entries', function() {
-
         beforeEach(function(done){
-            loadFeed(0,function(){done();});
+            loadFeed(1,function(){done();});
         });
         it('at least 1 is defined', function(done) {
             var entries = $(".feed").find(".entry");
@@ -75,12 +69,15 @@ $(function() {
 
 
     describe('New Feed Selection', function() {
-      var previous = $(".feed").html();
+      var previous;
       beforeEach(function(done){
+          loadFeed(0,function(){done();});
+      });
+      beforeEach(function(done){
+          previous = $(".feed").html();
           loadFeed(1,function(){done();});
       });
       it('is loading different feeds entry', function(done) {
-          var entries = $(".feed").find(".entry");
           expect($(".feed").html()).not.toBe(previous);
           done();
       });
